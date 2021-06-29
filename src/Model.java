@@ -1,31 +1,49 @@
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
-public class Model implements ListModel<Karte> {
+public class Model implements ListModel<Card> {
+    private Random random = new Random();
+    private Vector<Card> kartenListe = new Vector<>();
+    private String player1;
+    private String player2;
+    private int player1Points;
+    private int player2Points;
 
-    private Vector<Karte> kartenListe = new Vector<>();
-    private int s1punkte;
-    private int s2punkte;
+    public Vector<Card> shuffle(){
+        int counter = 20;
+        Vector<Card> cards = new Vector<>();
+        int[] numbers = new int[]{1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10};
+        Vector<Integer> num = new Vector<>();
+        for (int i = 0; i < 20; i++) {
+            num.add(numbers[i]);
+        }
 
-    public void shuffle(){
-
+        for (int i = 0; i < 20; i++) {
+            int x = random.nextInt(counter)+1;
+            cards.add(new Card(num.get(x-1)));
+            num.remove(x-1);
+            counter--;
+        }
+        return cards;
     }
 
     public int getPunkteSpieler1(){
-        return s1punkte;
+        return player1Points;
     }
 
     public int getPunkteSpieler2(){
-        return s2punkte;
+        return player2Points;
     }
 
-    public void addPunkteSpieler1(int punkte){
-        this.s1punkte += punkte;
+    public void addPunkteSpieler1(int points){
+        this.player1Points += points;
     }
 
-    public void addPunkteSpieler2(int punkte){
-        this.s2punkte += punkte;
+    public void addPunkteSpieler2(int points){
+        this.player2Points += points;
     }
 
     public void checkCards(){
@@ -38,7 +56,7 @@ public class Model implements ListModel<Karte> {
     }
 
     @Override
-    public Karte getElementAt(int index) {
+    public Card getElementAt(int index) {
         return null;
     }
 
@@ -51,4 +69,5 @@ public class Model implements ListModel<Karte> {
     public void removeListDataListener(ListDataListener l) {
 
     }
+
 }

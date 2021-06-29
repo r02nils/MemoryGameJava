@@ -1,10 +1,11 @@
+import java.awt.*;
 import java.io.IOException;
 
 public class MemoryGame {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello World");
-        GUI menuGUI = new GUI();
+
+        MenuGUI menuGUI = new MenuGUI();
         menuGUI.setSize(450,230);
     }
 }

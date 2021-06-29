@@ -3,6 +3,9 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class MenuGUI extends JFrame {
 
@@ -84,5 +87,18 @@ public class MenuGUI extends JFrame {
         menuPanel.setBorder(padding);
 
         getContentPane().add(menuPanel);
+
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    GUI gui = new GUI();
+                    gui.setSize(500,400);
+                    setVisible(false);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 }

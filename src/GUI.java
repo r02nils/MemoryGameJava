@@ -29,6 +29,9 @@ public class GUI extends JFrame {
     private int selectedOption;
     private int x;
     private int y;
+    private ArrayList imageIndexs;
+    private int imgIndex;
+    private int number;
 
     GUI(int x, int y) throws IOException {
         this.x = x;
@@ -50,6 +53,7 @@ public class GUI extends JFrame {
         pointsPlayer1 = new JLabel("0");
         pointsPlayer2 = new JLabel("0");
         currentPlayer = new JLabel("Aktueller Spieler: Spieler 1");
+
 
         model = new Model();
         cards = model.shuffle1(x * y);
@@ -104,7 +108,7 @@ public class GUI extends JFrame {
                         if (state == 2) {
                             state = 1;
                             c2 = index;
-                            if (cards.get(c1).getNumber() == cards.get(c2).getNumber()) {
+                            if (cards.get(c1).getImgAnime().contains((cards.get(c2).getImgAnime()))) {
                                 if (activePlayer == 1) {
                                     if(cards.get(index).getNumber() == 1){
                                         p1Points += 3;
@@ -170,7 +174,8 @@ public class GUI extends JFrame {
 
     }
 
-    public void setTurned(int index, boolean val) {
+
+    public void setTurned(int index, boolean val){
         if (val == true) {
             if (selectedOption == 1) {
                     cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource(cards.get(index).getImgAnime())).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
@@ -250,5 +255,10 @@ public class GUI extends JFrame {
     public void setY(int y) {
         this.y = y;
     }
+
+    public int getNumber() {
+        return number;
+    }
+
 }
 

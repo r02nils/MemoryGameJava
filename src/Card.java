@@ -9,6 +9,9 @@ public class Card {
     private String imgFootball = "";
     private JButton panel;
     private JLabel label;
+    private int imgIndex;
+
+
 
     public Card(int number, int imgIndex) {
         this.imgIndex = imgIndex;
@@ -161,17 +164,5 @@ public class Card {
 
     public String getImgAnime() {
         return imgAnime;
-    }
-
-    public void setImgAnime(String imgAnime) {
-        this.imgAnime = imgAnime;
-    }
-
-    public String getImgFootball() {
-        return imgFootball;
-    }
-
-    public void setImgFootball(String imgFootball) {
-        this.imgFootball = imgFootball;
     }
 }

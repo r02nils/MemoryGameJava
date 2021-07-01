@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.Vector;
 
@@ -153,4 +154,8 @@ public class Model implements ListModel<Card> {
 
     }
 
+    public int setImageIndexOne(int y) {
+        imgIndex++;
+        return imageIndexs.get(y);
+    }
 }

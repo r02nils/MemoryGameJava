@@ -6,6 +6,6 @@ public class MemoryGame {
     public static void main(String[] args) throws IOException {
 
         MenuGUI menuGUI = new MenuGUI();
-        menuGUI.setSize(450,230);
+        menuGUI.setSize(520,250);
     }
 }

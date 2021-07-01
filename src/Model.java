@@ -11,17 +11,21 @@ public class Model implements ListModel<Card> {
     private String player2;
     private int player1Points;
     private int player2Points;
+    private int imgSelection;
 
-    public Vector<Card> shuffle(){
-        int counter = 20;
+    public Vector<Card> shuffle(int index){
+        int counter = index;
         Vector<Card> cards = new Vector<>();
-        int[] numbers = new int[]{1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10};
         Vector<Integer> num = new Vector<>();
-        for (int i = 0; i < 20; i++) {
-            num.add(numbers[i]);
-        }
+        int y = 0;
+            for (int i = 2; i <= index+1; i++) {
+                if(i % 2 == 0){
+                    y=i/2;
+                }
+                num.add(y);
+            }
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < index; i++) {
             int x = random.nextInt(counter)+1;
             cards.add(new Card(num.get(x-1)));
             num.remove(x-1);
@@ -48,6 +52,14 @@ public class Model implements ListModel<Card> {
 
     public void checkCards(){
 
+    }
+
+    public int getImgSelection() {
+        return imgSelection;
+    }
+
+    public void setImgSelection(int imgSelection) {
+        this.imgSelection = imgSelection;
     }
 
     @Override

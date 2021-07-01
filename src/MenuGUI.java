@@ -15,6 +15,7 @@ public class MenuGUI extends JFrame {
     private JPanel tilesBox;
     private JRadioButton option1;
     private JRadioButton option2;
+    private JRadioButton option3;
     private ButtonGroup radioButtons;
     private JPanel radioPanel;
     private JLabel imagesLabel;
@@ -22,11 +23,13 @@ public class MenuGUI extends JFrame {
     private JButton start;
     private JButton leave;
     private JLabel label;
-
     private JPanel selectionPanel;
+
+    private int selectedOption;
 
     MenuGUI() {
         super("Memory Game Menu");
+        setResizable(false);
         init();
         pack();
         setVisible(true);
@@ -35,18 +38,19 @@ public class MenuGUI extends JFrame {
 
 
     private void init() {
-        String [] tilesArr = {"4 x 4", "5 x 4"};
+        String [] tilesArr = {"4x4", "5x4", "10x10"};
 
         label = new JLabel("Memory Game Menu", SwingConstants.CENTER);
         menuPanel = new JPanel();
         tiles = new JComboBox(tilesArr);
-        option1 = new JRadioButton("Bilder");
-        option2 = new JRadioButton("Anime");
+        option1 = new JRadioButton("Anime");
+        option2 = new JRadioButton("Fussball");
+        option3 = new JRadioButton("Farben");
         start = new JButton("Spiel starten");
         leave = new JButton("Beenden");
         tilesLabel = new JLabel("Anzahl Felder", SwingConstants.CENTER);
         imagesLabel = new JLabel("Bilder Auswahl", SwingConstants.CENTER);
-        radioPanel = new JPanel();
+        radioPanel = new JPanel(new GridLayout(1,3));
         selectionPanel = new JPanel();
         radioButtons = new ButtonGroup();
         tilesBox = new JPanel(new BorderLayout());
@@ -58,9 +62,13 @@ public class MenuGUI extends JFrame {
 
         radioButtons.add(option1);
         radioButtons.add(option2);
+        radioButtons.add(option3);
+
+        option3.setSelected(true);
 
         radioPanel.add(option1);
         radioPanel.add(option2);
+        radioPanel.add(option3);
 
         Border border = label.getBorder();
         Border margin = new EmptyBorder(0,0,20,0);
@@ -91,9 +99,33 @@ public class MenuGUI extends JFrame {
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                GUI gui;
                 try {
-                    GUI gui = new GUI();
-                    gui.setSize(500,400);
+                    if(tiles.getSelectedIndex() == 0){
+                        gui = new GUI(4,4);
+                        gui.setSize(600,620);
+                    }
+                    else if(tiles.getSelectedIndex() == 1){
+                        gui = new GUI(5,4);
+                        gui.setSize(600,620);
+                    }
+                    else{
+                        gui = new GUI(10,10);
+                        gui.setSize(600,620);
+                    }
+
+                    if(option1.isSelected()){
+                        gui.setSelectedOption(1);
+                    }
+                    else if(option2.isSelected()){
+                        gui.setSelectedOption(2);
+                    }
+                    else if(option3.isSelected()){
+                        gui.setSelectedOption(3);
+                    }
+                    else{
+                        gui.setSelectedOption(0);
+                    }
                     setVisible(false);
                 } catch (IOException ex) {
                     ex.printStackTrace();

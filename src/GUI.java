@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
-
 
 public class GUI extends JFrame {
 
@@ -33,6 +33,10 @@ public class GUI extends JFrame {
     GUI(int x, int y) throws IOException {
         this.x = x;
         this.y = y;
+        number = (y * x);
+        if ((x * y) % 2 != 0) {
+            number -= 1;
+        }
         this.setTitle("Memory Game");
         init();
         pack();
@@ -48,7 +52,8 @@ public class GUI extends JFrame {
         currentPlayer = new JLabel("Aktueller Spieler: Spieler 1");
 
         model = new Model();
-        cards = model.shuffle(x*y);
+        cards = model.shuffle1(x * y);
+        //cards = model.shuffle1(number);
         c1 = -1;
         c2 = -1;
         p1Points = 0;
@@ -57,7 +62,7 @@ public class GUI extends JFrame {
         state = 1;
         wait = 0;
 
-        infoPanel = new JPanel(new GridLayout(1,3));
+        infoPanel = new JPanel(new GridLayout(1, 3));
 
         infoPanel.add(pointsPlayer1);
         infoPanel.add(currentPlayer);
@@ -65,22 +70,20 @@ public class GUI extends JFrame {
         infoPanel.setSize(100, 20);
 
 
-
         field = new JPanel(new GridLayout(x, y, 5, 5));
-        for (int i = 0; i < (x*y); i++) {
-            if(x == y){
-                cards.get(i).getPanel().setSize((150/x)*4, (150/y)*4);
-            }
-            else{
+        for (int i = 0; i < (number); i++) {
+            if (x == y) {
+                cards.get(i).getPanel().setSize((150 / x) * 4, (150 / y) * 4);
+            } else {
                 cards.get(i).getPanel().setSize(150, 150);
             }
             field.add(cards.get(i).getPanel());
         }
 
-        getContentPane().add(infoPanel,BorderLayout.NORTH);
-        getContentPane().add(field,BorderLayout.CENTER);
+        getContentPane().add(infoPanel, BorderLayout.NORTH);
+        getContentPane().add(field, BorderLayout.CENTER);
 
-        for (int i = 0; i < x*y; i++) {
+        for (int i = 0; i < number; i++) {
             cards.get(i).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource("img/Memory.png")).getImage().getScaledInstance(cards.get(0).getPanel().getWidth(), cards.get(0).getPanel().getHeight(), Image.SCALE_SMOOTH)));
         }
 
@@ -103,12 +106,22 @@ public class GUI extends JFrame {
                             c2 = index;
                             if (cards.get(c1).getNumber() == cards.get(c2).getNumber()) {
                                 if (activePlayer == 1) {
-                                    p1Points++;
+                                    if(cards.get(index).getNumber() == 1){
+                                        p1Points += 3;
+                                    }
+                                    else {
+                                        p1Points++;
+                                    }
                                     points(activePlayer, p1Points);
                                     activePlayer = 1;
                                     changePlayer(activePlayer);
                                 } else {
-                                    p2Points++;
+                                    if(cards.get(index).getNumber() == 1){
+                                        p2Points += 3;
+                                    }
+                                    else {
+                                        p2Points++;
+                                    }
                                     points(activePlayer, p2Points);
                                     activePlayer = 2;
                                     changePlayer(2);
@@ -160,12 +173,14 @@ public class GUI extends JFrame {
     public void setTurned(int index, boolean val) {
         if (val == true) {
             if (selectedOption == 1) {
-                cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource(cards.get(index).getImgAnime())).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
-            } else if (selectedOption == 2) {
-                cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource(cards.get(index).getImgFootball())).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
+                    cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource(cards.get(index).getImgAnime())).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
             } else {
-                cards.get(index).getPanel().setBackground(cards.get(index).getColor());
-                cards.get(index).getPanel().setIcon(null);
+                if (cards.get(index).getNumber() == 1) {
+                    cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource(cards.get(index).getImgAnime())).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
+                } else {
+                    cards.get(index).getPanel().setBackground(cards.get(index).getColor());
+                    cards.get(index).getPanel().setIcon(null);
+                }
             }
 
             showText(index);
@@ -186,16 +201,15 @@ public class GUI extends JFrame {
         //cards.get(index).setLabel(" ");
     }
 
-    public void changePlayer(int index){
-        currentPlayer.setText("Aktueller Spieler: "+index);
+    public void changePlayer(int index) {
+        currentPlayer.setText("Aktueller Spieler: " + index);
     }
 
-    public void points(int index, int points){
-        if(index == 1){
-            pointsPlayer1.setText("Spieler 1: "+points);
-        }
-        else{
-            pointsPlayer2.setText("Spieler 2: "+points);
+    public void points(int index, int points) {
+        if (index == 1) {
+            pointsPlayer1.setText("Spieler 1: " + points);
+        } else {
+            pointsPlayer2.setText("Spieler 2: " + points);
         }
     }
 
@@ -215,8 +229,9 @@ public class GUI extends JFrame {
                 System.out.println(e.getMessage());
             }
             setVisible(false);
-            MenuGUI menuGUI = new MenuGUI();
-            menuGUI.setVisible(true);
+            ResultGUI resultGUI = new ResultGUI(p1Points, p2Points);
+            resultGUI.setSize(700,500);
+            resultGUI.setVisible(true);
         }
     }
 

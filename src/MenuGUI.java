@@ -38,14 +38,13 @@ public class MenuGUI extends JFrame {
 
 
     private void init() {
-        String [] tilesArr = {"4x4", "5x4", "10x10"};
+        String [] tilesArr = {"4x4", "5x4","5x5","10x10"};
 
         label = new JLabel("Memory Game Menu", SwingConstants.CENTER);
         menuPanel = new JPanel();
         tiles = new JComboBox(tilesArr);
         option1 = new JRadioButton("Anime");
-        option2 = new JRadioButton("Fussball");
-        option3 = new JRadioButton("Farben");
+        option2 = new JRadioButton("Farben");
         start = new JButton("Spiel starten");
         leave = new JButton("Beenden");
         tilesLabel = new JLabel("Anzahl Felder", SwingConstants.CENTER);
@@ -62,13 +61,11 @@ public class MenuGUI extends JFrame {
 
         radioButtons.add(option1);
         radioButtons.add(option2);
-        radioButtons.add(option3);
 
-        option3.setSelected(true);
+        option2.setSelected(true);
 
         radioPanel.add(option1);
         radioPanel.add(option2);
-        radioPanel.add(option3);
 
         Border border = label.getBorder();
         Border margin = new EmptyBorder(0,0,20,0);
@@ -109,6 +106,10 @@ public class MenuGUI extends JFrame {
                         gui = new GUI(5,4);
                         gui.setSize(600,620);
                     }
+                    else if(tiles.getSelectedIndex() == 2){
+                        gui = new GUI(5,5);
+                        gui.setSize(600,620);
+                    }
                     else{
                         gui = new GUI(10,10);
                         gui.setSize(600,620);
@@ -119,9 +120,6 @@ public class MenuGUI extends JFrame {
                     }
                     else if(option2.isSelected()){
                         gui.setSelectedOption(2);
-                    }
-                    else if(option3.isSelected()){
-                        gui.setSelectedOption(3);
                     }
                     else{
                         gui.setSelectedOption(0);

@@ -3,14 +3,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 
 public class MemoryGame {
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 
         clearTheFile();
-        String soundName = "africa-toto.wav";
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("africa-toto.wav").getAbsoluteFile());
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/music/africa-toto.wav").getAbsoluteFile());
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();

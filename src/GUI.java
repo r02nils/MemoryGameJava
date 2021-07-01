@@ -1,7 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -54,6 +59,12 @@ public class GUI extends JFrame {
         pointsPlayer2 = new JLabel("0");
         currentPlayer = new JLabel("Aktueller Spieler: Spieler 1");
 
+        JFrame f = new JFrame();
+        try {
+            f.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/img/Memory.png")))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         model = new Model();
         cards = model.shuffle1(x * y);
@@ -178,9 +189,13 @@ public class GUI extends JFrame {
     public void setTurned(int index, boolean val){
         if (val == true) {
             if (selectedOption == 1) {
+                if(cards.get(index).getNumber() == 1){
+                    cards.get(index).getPanel().setBorder(BorderFactory.createBevelBorder(1, Color.red, Color.blue));
+                }
                     cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource(cards.get(index).getImgAnime())).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
             } else {
                 if (cards.get(index).getNumber() == 1) {
+                    cards.get(index).getPanel().setBorder(BorderFactory.createBevelBorder(1, Color.red, Color.blue));
                     cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource(cards.get(index).getImgAnime())).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
                 } else {
                     cards.get(index).getPanel().setBackground(cards.get(index).getColor());
@@ -195,6 +210,7 @@ public class GUI extends JFrame {
             cards.get(index).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource("img/Memory.png")).getImage().getScaledInstance(cards.get(index).getPanel().getWidth(), cards.get(index).getPanel().getHeight(), Image.SCALE_SMOOTH)));
             unshowText(index);
             cards.get(index).setTurned(false);
+            cards.get(index).getPanel().setBorder(UIManager.getBorder("Button.border"));
         }
     }
 
@@ -260,5 +276,17 @@ public class GUI extends JFrame {
         return number;
     }
 
+}
+
+class ImagePanel extends JComponent {
+    private Image image;
+    public ImagePanel(Image image) {
+        this.image = image;
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this);
+    }
 }
 

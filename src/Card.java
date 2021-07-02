@@ -154,10 +154,6 @@ public class Card {
         return this.number;
     }
 
-    public void setLabel(String num) {
-        this.label.setText(num);
-    }
-
     public Color getColor() {
         return color;
     }

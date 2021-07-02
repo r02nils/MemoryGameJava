@@ -40,7 +40,7 @@ public class MenuGUI extends JFrame {
 
 
     private void init() {
-        String [] tilesArr = {"4x4", "5x4","5x5","10x10"};
+        String [] tilesArr = {"4x4", "5x4","5x5","6x5","6x6","7x6","7x7","8x7","8x8","9x8","9x9","10x9","10x10"};
 
         label = new JLabel("Memory Game Menu", SwingConstants.CENTER);
         menuPanel = new JPanel();
@@ -100,21 +100,21 @@ public class MenuGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 GUI gui;
                 try {
-                    if(tiles.getSelectedIndex() == 0){
-                        gui = new GUI(4,4);
-                        gui.setSize(600,620);
-                    }
-                    else if(tiles.getSelectedIndex() == 1){
-                        gui = new GUI(5,4);
-                        gui.setSize(600,620);
-                    }
-                    else if(tiles.getSelectedIndex() == 2){
-                        gui = new GUI(5,5);
-                        gui.setSize(600,620);
-                    }
-                    else{
-                        gui = new GUI(10,10);
-                        gui.setSize(600,620);
+                    switch (tiles.getSelectedIndex()){
+                        case 0: gui = new GUI(4,4,0); gui.setSize(600,620); break;
+                        case 1: gui = new GUI(5,4,0); gui.setSize(750,620); break;
+                        case 2: gui = new GUI(5,5,0); gui.setSize(600,620); break;
+                        case 3: gui = new GUI(6,5,0); gui.setSize(750,620); break;
+                        case 4: gui = new GUI(6,6,0); gui.setSize(600,620); break;
+                        case 5: gui = new GUI(7,6,0); gui.setSize(750,620); break;
+                        case 6: gui = new GUI(7,7,0); gui.setSize(600,620); break;
+                        case 7: gui = new GUI(8,7,0); gui.setSize(750,620); break;
+                        case 8: gui = new GUI(8,8,0); gui.setSize(600,620); break;
+                        case 9: gui = new GUI(9,8,0); gui.setSize(750,620); break;
+                        case 10: gui = new GUI(9,9,0); gui.setSize(600,620); break;
+                        case 11: gui = new GUI(10,9,0); gui.setSize(750,620); break;
+                        case 12: gui = new GUI(10,10,0); gui.setSize(600,620); break;
+                        default: gui = new GUI(4,4,0); gui.setSize(600,620); break;
                     }
 
                     if(option1.isSelected()){

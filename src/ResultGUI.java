@@ -18,27 +18,27 @@ public class ResultGUI extends JFrame {
     private JLabel totalPointsPlayer2;
     private JButton restartGame;
     private JButton leave;
-    private int p1Punkte;
-    private int p2Punkte;
-    private int [] punkte = new int[2];
+    private int [] punkte;
 
     ResultGUI(int p1, int p2){
         super("Memory Game - Result");
         punkte = loadPunkte();
-
+        init(p1,p2);
         if(p1 > p2){
+            winner.setText("Sieger: Spieler 1");
             punkte[0]++;
         }
         else if(p2 > p1){
+            winner.setText("Sieger: Spieler 2");
             punkte[1]++;
         }
         else{
+            winner.setText("Sieger: Unentschieden");
             punkte[0]++;
             punkte[1]++;
         }
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        init(p1,p2);
         pack();
         setVisible(true);
     }
@@ -49,7 +49,7 @@ public class ResultGUI extends JFrame {
         pointsPanel = new JPanel(new GridLayout(1,2,5,5));
         totalPointsPanel = new JPanel(new GridLayout(2,1,5,5));
         totalPointsPlayerPanel = new JPanel(new GridLayout(1,2,5,5));
-        winner = new JLabel("Sieger: Spieler 1");
+        winner = new JLabel("");
         pointsPlayer1 = new JLabel("Spieler 1: " + (p1));
         pointsPlayer2 = new JLabel("Spieler 2: " + (p2));
         totalPointsLabel = new JLabel("Gesamte Punktzahl");
@@ -112,4 +112,15 @@ public class ResultGUI extends JFrame {
         }
     }
 
+    public JLabel getWinner() {
+        return winner;
+    }
+
+    public int[] getPunkte() {
+        return punkte;
+    }
+
+    public void setPunkte(int[] punkte) {
+        this.punkte = punkte;
+    }
 }

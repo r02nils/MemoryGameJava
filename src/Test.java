@@ -86,7 +86,62 @@ public class Test{
         assertEquals(5,x);
     }
 
+    @org.junit.Test
+    public void t11() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        GUI gui = new GUI(4,4,1);
+        gui.setSelectedOption(2);
+        gui.getModel().shuffle0(16);
 
+        gui.clickEvent(0);
+        gui.clickEvent(4);
+
+        gui.clickEvent(1);
+
+        boolean check1 = gui.getCards().get(0).getTurned();
+        boolean check2 = gui.getCards().get(4).getTurned();
+
+        assertEquals(false,check1);
+        assertEquals(false,check2);
+    }
+
+    @org.junit.Test
+    public void t12() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        GUI gui = new GUI(4,4,1);
+        gui.setSelectedOption(2);
+        gui.getModel().shuffle0(16);
+
+        gui.clickEvent(0);
+        gui.clickEvent(1);
+
+        int x = gui.getP1Points();
+
+        assertEquals(3,x);
+    }
+
+    @org.junit.Test
+    public void t13() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        GUI gui = new GUI(4,4,1);
+        gui.setSelectedOption(2);
+        gui.getModel().shuffle0(16);
+
+        gui.clickEvent(0);
+        gui.clickEvent(4);
+
+        int x = gui.getActivePlayer();
+
+        assertEquals(2,x);
+    }
+
+    @org.junit.Test
+    public void t14() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        GUI gui = new GUI(4,4,1);
+        gui.setSelectedOption(2);
+        gui.getModel().shuffle0(16);
+
+        int x = gui.getActivePlayer();
+
+        assertEquals(1,x);
+    }
 
     public static void clearTheFile() throws IOException {
         FileWriter fwOb = new FileWriter("savePunkte.txt", false);

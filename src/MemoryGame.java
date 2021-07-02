@@ -1,9 +1,7 @@
 import javax.sound.sampled.*;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
 
 public class MemoryGame {
 

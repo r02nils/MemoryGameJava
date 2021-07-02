@@ -198,6 +198,14 @@ public class GUI extends JFrame {
         return player2;
     }
 
+    public Vector<Card> getCards() {
+        return cards;
+    }
+
+    public ResultGUI getResultGUI() {
+        return resultGUI;
+    }
+
     public void clickEvent(int index){
         if (cards.get(index).getTurned() == false) {
             if (wait == 1) {

@@ -52,7 +52,7 @@ public class Model implements ListModel<Card> {
             }
         }
 
-        Collections.shuffle(cards);
+        //Collections.shuffle(cards);
         return cards;
     }
 

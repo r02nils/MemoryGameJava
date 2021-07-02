@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -37,8 +38,10 @@ public class GUI extends JFrame {
     private ArrayList imageIndexs;
     private int imgIndex;
     private int number;
+    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/music/africa-toto.wav").getAbsoluteFile());
+    Clip clip = AudioSystem.getClip();
 
-    GUI(int x, int y) throws IOException {
+    GUI(int x, int y) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         this.x = x;
         this.y = y;
         number = (y * x);
@@ -52,22 +55,22 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
-    public void init() throws IOException {
+    public void init() throws IOException, LineUnavailableException {
+        clip.open(audioInputStream);
+        clip.start();
         player1 = new JLabel("Spieler 1");
         player2 = new JLabel("Spieler 2");
         pointsPlayer1 = new JLabel("0");
         pointsPlayer2 = new JLabel("0");
         currentPlayer = new JLabel("Aktueller Spieler: Spieler 1");
 
-        JFrame f = new JFrame();
-        try {
-            f.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/img/Memory.png")))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        pointsPlayer1.setFont(new Font("Georgia", Font.PLAIN,20));
+        pointsPlayer2.setFont(new Font("Georgia", Font.PLAIN,20));
+        currentPlayer.setFont(new Font("Georgia", Font.PLAIN,20));
 
         model = new Model();
-        cards = model.shuffle1(x * y);
+        cards = model.shuffle1(number);
         //cards = model.shuffle1(number);
         c1 = -1;
         c2 = -1;
@@ -82,7 +85,8 @@ public class GUI extends JFrame {
         infoPanel.add(pointsPlayer1);
         infoPanel.add(currentPlayer);
         infoPanel.add(pointsPlayer2);
-        infoPanel.setSize(100, 20);
+        infoPanel.setSize(100, 50);
+        infoPanel.setBackground(Color.red);
 
 
         field = new JPanel(new GridLayout(x, y, 5, 5));
@@ -140,6 +144,7 @@ public class GUI extends JFrame {
                                     points(activePlayer, p2Points);
                                     activePlayer = 2;
                                     changePlayer(2);
+
                                 }
                                 checkFinished();
                             } else {
@@ -147,9 +152,11 @@ public class GUI extends JFrame {
                                 if (activePlayer == 1) {
                                     activePlayer = 2;
                                     changePlayer(activePlayer);
+                                    infoPanel.setBackground(Color.green);
                                 } else {
                                     activePlayer = 1;
                                     changePlayer(activePlayer);
+                                    infoPanel.setBackground(Color.red);
                                 }
                             }
                         } else {
@@ -250,6 +257,7 @@ public class GUI extends JFrame {
                 System.out.println(e.getMessage());
             }
             setVisible(false);
+            clip.stop();
             ResultGUI resultGUI = new ResultGUI(p1Points, p2Points);
             resultGUI.setSize(700,500);
             resultGUI.setVisible(true);
@@ -274,19 +282,6 @@ public class GUI extends JFrame {
 
     public int getNumber() {
         return number;
-    }
-
-}
-
-class ImagePanel extends JComponent {
-    private Image image;
-    public ImagePanel(Image image) {
-        this.image = image;
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, this);
     }
 }
 

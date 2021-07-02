@@ -10,10 +10,8 @@ public class MemoryGame {
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 
         clearTheFile();
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/music/africa-toto.wav").getAbsoluteFile());
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioInputStream);
-        clip.start();
+
+
         MenuGUI menuGUI = new MenuGUI();
         menuGUI.setSize(520,250);
 

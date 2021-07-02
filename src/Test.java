@@ -40,7 +40,6 @@ public class Test{
         ResultGUI resultGUI = new ResultGUI(4,6);
         resultGUI.savePunkte(resultGUI.getPunkte());
         resultGUI = new ResultGUI(1,7);
-        int [] expected = {1,1};
 
         assertEquals(2, resultGUI.getPunkte()[1]);
     }

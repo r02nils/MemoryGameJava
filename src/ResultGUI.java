@@ -18,7 +18,7 @@ public class ResultGUI extends JFrame {
     private JLabel totalPointsPlayer2;
     private JButton restartGame;
     private JButton leave;
-    private int [] punkte;
+    private int [] punkte = new int[2];
 
     ResultGUI(int p1, int p2){
         super("Memory Game - Result");

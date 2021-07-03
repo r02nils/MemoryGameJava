@@ -1,18 +1,24 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Pascal Thuma, Francesco Ryu, Nils Rothenbühler
+ * @since 2021-07-03
+ * @version 1.0
+ */
 public class Card {
     private int number;
     private boolean isTurned;
     private Color color;
     private String imgAnime = "";
-    private String imgFootball = "";
     private JButton panel;
-    private JLabel label;
     private int imgIndex;
 
-
-
+    /**
+     * Card constructor
+     * @param number number of Card
+     * @param imgIndex image Index
+     */
     public Card(int number, int imgIndex) {
         this.imgIndex = imgIndex;
         this.isTurned = false;
@@ -21,13 +27,15 @@ public class Card {
         setImages();
         setColors();
         panel = new JButton();
-        label = new JLabel();
-        panel.add(label);
     }
 
+    /**
+     * Images are assigned to the cards
+     * Joker card is present in every game
+     */
     public void setImages() {
         switch (number) {
-            case 1: imgAnime = "img/i"+1+".png";break;
+            case 1: imgAnime = "img/i"+1+".png";break; //Joker card is present in every game
             case 2: imgAnime = "img/i"+imgIndex+".png";break;
             case 3: imgAnime = "img/i"+imgIndex+".png";break;
             case 4: imgAnime = "img/i"+imgIndex+".png";break;
@@ -81,9 +89,12 @@ public class Card {
         }
     }
 
+    /**
+     * Colors are assigned to the cards
+     */
     public void setColors(){
         switch (number){
-            case 1: imgAnime = "img/i"+1+".png";break;
+            case 1: imgAnime = "img/i"+1+".png";break; //Joker card is present in every game
             case 2: color = new Color(255,204,0); break;
             case 3: color = new Color(100,255,0); break;
             case 4: color = new Color(0,255,149); break;
@@ -137,27 +148,50 @@ public class Card {
         }
     }
 
-
+    /**
+     * returns the card
+     * @return panel (card)
+     */
     public JButton getPanel() {
         return this.panel;
     }
 
+    /**
+     * set isTurned value to true/false
+     * @param val value
+     */
     public void setTurned(boolean val) {
         this.isTurned = val;
     }
 
+    /**
+     * get boolean if card is turned or not
+     * @return isTurned
+     */
     public boolean getTurned() {
         return this.isTurned;
     }
 
+    /**
+     * gets the unique number (every card pair has the same number)
+     * @return number
+     */
     public int getNumber() {
         return this.number;
     }
 
+    /**
+     * returns color of the card
+     * @return color
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * returns image of the card
+     * @return imgAnime
+     */
     public String getImgAnime() {
         return imgAnime;
     }

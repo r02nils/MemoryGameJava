@@ -1,3 +1,4 @@
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
@@ -5,11 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.Timer;
 import java.util.Vector;
 
+/**
+ * @author Pascal Thuma, Francesco Ryu, Nils Rothenbühler
+ * @since 2021-07-03
+ * @version 1.0
+ */
 public class GUI extends JFrame {
 
-    private JPanel[] cardpanels = new JPanel[20];
     private Model model;
     private Vector<Card> cards;
     private JPanel field;
@@ -30,17 +36,31 @@ public class GUI extends JFrame {
     private int number;
     private ResultGUI resultGUI;
     private int mode;
+    private int timeInt;
+    private Timer t;
+    private JLabel timeLabel;
+    private JPanel middle;
 
-    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/music/africa-toto.wav").getAbsoluteFile());
+    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/music/africa-toto.wav").getCanonicalFile());
     Clip clip = AudioSystem.getClip();
 
+    /**
+     *
+     * @param y
+     * @param x
+     * @param mode //mode 0 = normal mode | mode 1 = test mode
+     * @throws IOException
+     * @throws UnsupportedAudioFileException
+     * @throws LineUnavailableException
+     */
     GUI(int y, int x, int mode) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        Timer(15); //start timer (15 seconds)
         this.x = x;
         this.y = y;
         this.mode = mode;
         number = (y * x);
         if ((x * y) % 2 != 0) {
-            number -= 1;
+            number -= 1; //reduse number of cards if cards are odd
         }
         this.setTitle("Memory Game");
         init();
@@ -53,27 +73,33 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * init Method
+     * @throws IOException exception
+     * @throws LineUnavailableException exception
+     */
     public void init() throws IOException, LineUnavailableException {
         clip.open(audioInputStream);
         clip.start();
         player1 = new JLabel("Spieler 1");
         player2 = new JLabel("Spieler 2");
-        pointsPlayer1 = new JLabel("0");
-        pointsPlayer2 = new JLabel("0");
-        currentPlayer = new JLabel("Aktueller Spieler: Spieler 1");
-
+        pointsPlayer1 = new JLabel("Spieler 1: 0", SwingConstants.LEFT);
+        pointsPlayer2 = new JLabel("Spieler 2: 0", SwingConstants.RIGHT);
+        currentPlayer = new JLabel("Aktueller Spieler: 1",SwingConstants.CENTER);
+        timeLabel = new JLabel("",SwingConstants.CENTER);
 
         pointsPlayer1.setFont(new Font("Georgia", Font.PLAIN,20));
         pointsPlayer2.setFont(new Font("Georgia", Font.PLAIN,20));
         currentPlayer.setFont(new Font("Georgia", Font.PLAIN,20));
+        timeLabel.setFont(new Font("Georgia", Font.PLAIN,15));
 
         model = new Model();
 
         if(mode == 1){
-            cards = model.shuffle0(number);
+            cards = model.shuffle0(number); //cards are not mixed (test mode)
         }
         else{
-            cards = model.shuffle1(number);
+            cards = model.shuffle1(number); //cards are mixed (normal mode)
         }
         c1 = -1;
         c2 = -1;
@@ -83,14 +109,21 @@ public class GUI extends JFrame {
 
         infoPanel = new JPanel(new GridLayout(1, 3));
 
+        middle = new JPanel(new GridLayout(2,1));
+        middle.add(currentPlayer);
+        middle.add(timeLabel);
+
         infoPanel.add(pointsPlayer1);
-        infoPanel.add(currentPlayer);
+        infoPanel.add(middle);
         infoPanel.add(pointsPlayer2);
         infoPanel.setSize(100, 50);
-        infoPanel.setBackground(Color.red);
 
 
         field = new JPanel(new GridLayout(x, y, 5, 5));
+
+        /**
+         * cards are created
+         */
         for (int i = 0; i < (number); i++) {
 
             if (x == y) {
@@ -101,10 +134,12 @@ public class GUI extends JFrame {
             field.add(cards.get(i).getPanel());
         }
 
-
         getContentPane().add(infoPanel, BorderLayout.NORTH);
         getContentPane().add(field, BorderLayout.CENTER);
 
+        /**
+         * Back of the card is created
+         */
         for (int i = 0; i < number; i++) {
             cards.get(i).getPanel().setIcon(new ImageIcon(new ImageIcon(getClass().getResource("img/Memory.png")).getImage().getScaledInstance(cards.get(i).getPanel().getWidth(), cards.get(i).getPanel().getHeight(), Image.SCALE_SMOOTH)));
         }
@@ -116,7 +151,11 @@ public class GUI extends JFrame {
 
     }
 
-
+    /**
+     * turns or unturns the card
+     * @param index index of card
+     * @param val value
+     */
     public void setTurned(int index, boolean val){
         if (val == true) {
             if (selectedOption == 1) {
@@ -142,10 +181,31 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * change the current player
+     * @param index index (number)
+     */
     public void changePlayer(int index) {
         currentPlayer.setText("Aktueller Spieler: " + index);
+        if(index == 1){
+            pointsPlayer2.setOpaque(false);
+            pointsPlayer1.setBackground(Color.green);
+            pointsPlayer1.setOpaque(true);
+            this.repaint();
+        }
+        else{
+            pointsPlayer1.setOpaque(false);
+            pointsPlayer2.setBackground(Color.green);
+            pointsPlayer2.setOpaque(true);
+            this.repaint();
+        }
     }
 
+    /**
+     * set points to pointsLabel
+     * @param index index of Player
+     * @param points points
+     */
     public void points(int index, int points) {
         if (index == 1) {
             pointsPlayer1.setText("Spieler 1: " + points);
@@ -154,6 +214,9 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * checks if game is finished (if all cards are turned)
+     */
     public void checkFinished() {
         int check = 0;
         for (int i = 0; i < cards.size(); i++) {
@@ -170,43 +233,130 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * set Selected Option from MenuGUI
+     * @param selectedOption selectedOption
+     */
     public void setSelectedOption(int selectedOption) {
         this.selectedOption = selectedOption;
     }
 
+    /**
+     * get Model
+     * @return model
+     */
     public Model getModel() {
         return model;
     }
 
+    /**
+     * returns the active Player
+     * @return activePlayer
+     */
     public int getActivePlayer() {
         return activePlayer;
     }
 
+    /**
+     * get Points of Player 1
+     * @return p1Points
+     */
     public int getP1Points() {
         return p1Points;
     }
 
+    /**
+     * get Points of Player 2
+     * @return p2Points
+     */
     public int getP2Points() {
         return p2Points;
     }
 
+    /**
+     * get Player 1 Label
+     * @return player1
+     */
     public JLabel getPlayer1() {
         return player1;
     }
 
+    /**
+     * get Player 2 Label
+     * @return player2
+     */
     public JLabel getPlayer2() {
         return player2;
     }
 
+    /**
+     * get cards Vector
+     * @return cards
+     */
     public Vector<Card> getCards() {
         return cards;
     }
 
+    /**
+     * get Instance of resultGUI
+     * @return resultGUI
+     */
     public ResultGUI getResultGUI() {
         return resultGUI;
     }
 
+    /**
+     * Timer
+     * @param time time
+     */
+    public void Timer(int time) {
+        this.timeInt = time;
+        t = new Timer(950, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                countdown();
+            }
+        });
+        t.start();
+    }
+
+    /**
+     * countdown of Timer
+     */
+    public void countdown(){
+        if (timeInt > 4) {
+            timeLabel.setText(String.valueOf(timeInt));
+            timeLabel.setOpaque(false);
+            timeInt--;
+            this.repaint();
+        }
+        else if(timeInt > -1){
+            timeLabel.setText(String.valueOf(timeInt));
+            timeLabel.setBackground(Color.red);
+            timeLabel.setOpaque(true);
+            timeInt--;
+            this.repaint();
+        }
+        else {
+            t.stop();
+            if(activePlayer == 1){
+                changePlayer(2);
+                activePlayer = 2;
+            }
+            else{
+                changePlayer(1);
+                activePlayer = 1;
+            }
+        }
+    }
+
+    /**
+     * When a player reveals a card, this method is executed
+     * @param index index of card
+     */
     public void clickEvent(int index){
+        t.stop();
+        Timer(15);
         if (cards.get(index).getTurned() == false) {
             if (wait == 1) {
                 setTurned(c1, false);
@@ -246,11 +396,9 @@ public class GUI extends JFrame {
                     if (activePlayer == 1) {
                         activePlayer = 2;
                         changePlayer(activePlayer);
-                        infoPanel.setBackground(Color.green);
                     } else {
                         activePlayer = 1;
                         changePlayer(activePlayer);
-                        infoPanel.setBackground(Color.red);
                     }
                 }
             } else {
@@ -259,5 +407,6 @@ public class GUI extends JFrame {
             }
         }
     }
+
 }
 

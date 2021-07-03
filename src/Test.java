@@ -1,3 +1,4 @@
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
@@ -8,8 +9,20 @@ import java.util.Vector;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Pascal Thuma, Francesco Ryu, Nils Rothenbühler
+ * @since 2021-07-03
+ * @version 1.0
+ */
+
 public class Test{
 
+    /**
+     * checks if correct active player is set after a player discover a pair of cards
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t01() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -21,6 +34,12 @@ public class Test{
         assertEquals(x,1);
     }
 
+    /**
+     * checks whether the player with the most points wins
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t02() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -34,16 +53,28 @@ public class Test{
         assertEquals("Sieger: Spieler 1", x);
     }
 
+    /**
+     * checks if totalPoints are carried over when the game is restarted
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t04() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         clearTheFile();
         ResultGUI resultGUI = new ResultGUI(4,6);
-        resultGUI.savePunkte(resultGUI.getPunkte());
+        resultGUI.savePoints(resultGUI.getPoints());
         resultGUI = new ResultGUI(1,7);
 
-        assertEquals(2, resultGUI.getPunkte()[1]);
+        assertEquals(2, resultGUI.getPoints()[1]);
     }
 
+    /**
+     * checks if two matched cards have the same color
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t06() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -55,6 +86,12 @@ public class Test{
         assertEquals(card1,card2);
     }
 
+    /**
+     * checks if name is correct
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t07() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -66,6 +103,12 @@ public class Test{
         assertEquals(name2,"Spieler 2");
     }
 
+    /**
+     * checks if the points are counted correctly
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t08() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -86,6 +129,12 @@ public class Test{
         assertEquals(5,x);
     }
 
+    /**
+     * checks if the cards are getting unturned after they don't match
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t11() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -104,6 +153,12 @@ public class Test{
         assertEquals(false,check2);
     }
 
+    /**
+     * checks if Joker card gives 3 points
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t12() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -118,6 +173,12 @@ public class Test{
         assertEquals(3,x);
     }
 
+    /**
+     * checks if active Player get Swapped if a player dont find two matched cards
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t13() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -132,6 +193,12 @@ public class Test{
         assertEquals(2,x);
     }
 
+    /**
+     * checks if active Player is set to 1 if game starts
+     * @throws UnsupportedAudioFileException exception
+     * @throws LineUnavailableException exception
+     * @throws IOException exception
+     */
     @org.junit.Test
     public void t14() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         GUI gui = new GUI(4,4,1);
@@ -143,6 +210,10 @@ public class Test{
         assertEquals(1,x);
     }
 
+    /**
+     * clears the file "savePunkte.txt"
+     * @throws IOException exception
+     */
     public static void clearTheFile() throws IOException {
         FileWriter fwOb = new FileWriter("savePunkte.txt", false);
         PrintWriter pwOb = new PrintWriter(fwOb, false);

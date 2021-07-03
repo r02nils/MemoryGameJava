@@ -1,3 +1,4 @@
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
@@ -9,6 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * @author Pascal Thuma, Francesco Ryu, Nils Rothenbühler
+ * @since 2021-07-03
+ * @version 1.0
+ */
+
 public class MenuGUI extends JFrame {
 
     private JPanel menuPanel;
@@ -17,7 +24,6 @@ public class MenuGUI extends JFrame {
     private JPanel tilesBox;
     private JRadioButton option1;
     private JRadioButton option2;
-    private JRadioButton option3;
     private ButtonGroup radioButtons;
     private JPanel radioPanel;
     private JLabel imagesLabel;
@@ -27,8 +33,9 @@ public class MenuGUI extends JFrame {
     private JLabel label;
     private JPanel selectionPanel;
 
-    private int selectedOption;
-
+    /**
+     * MenuGUI constructor
+     */
     MenuGUI() {
         super("Memory Game Menu");
         setResizable(false);
@@ -38,7 +45,9 @@ public class MenuGUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-
+    /**
+     * init Method
+     */
     private void init() {
         String [] tilesArr = {"4x4", "5x4","5x5","6x5","6x6","7x6","7x7","8x7","8x8","9x8","9x9","10x9","10x10"};
 
@@ -95,6 +104,9 @@ public class MenuGUI extends JFrame {
 
         getContentPane().add(menuPanel);
 
+        /**
+         * code gets executed if start gets clicked
+         */
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,17 +114,17 @@ public class MenuGUI extends JFrame {
                 try {
                     switch (tiles.getSelectedIndex()){
                         case 0: gui = new GUI(4,4,0); gui.setSize(600,620); break;
-                        case 1: gui = new GUI(5,4,0); gui.setSize(750,620); break;
+                        case 1: gui = new GUI(5,4,0); gui.setSize(600,620); break;
                         case 2: gui = new GUI(5,5,0); gui.setSize(600,620); break;
-                        case 3: gui = new GUI(6,5,0); gui.setSize(750,620); break;
+                        case 3: gui = new GUI(6,5,0); gui.setSize(600,620); break;
                         case 4: gui = new GUI(6,6,0); gui.setSize(600,620); break;
-                        case 5: gui = new GUI(7,6,0); gui.setSize(750,620); break;
+                        case 5: gui = new GUI(7,6,0); gui.setSize(600,620); break;
                         case 6: gui = new GUI(7,7,0); gui.setSize(600,620); break;
-                        case 7: gui = new GUI(8,7,0); gui.setSize(750,620); break;
+                        case 7: gui = new GUI(8,7,0); gui.setSize(600,620); break;
                         case 8: gui = new GUI(8,8,0); gui.setSize(600,620); break;
-                        case 9: gui = new GUI(9,8,0); gui.setSize(750,620); break;
+                        case 9: gui = new GUI(9,8,0); gui.setSize(600,620); break;
                         case 10: gui = new GUI(9,9,0); gui.setSize(600,620); break;
-                        case 11: gui = new GUI(10,9,0); gui.setSize(750,620); break;
+                        case 11: gui = new GUI(10,9,0); gui.setSize(600,620); break;
                         case 12: gui = new GUI(10,10,0); gui.setSize(600,620); break;
                         default: gui = new GUI(4,4,0); gui.setSize(600,620); break;
                     }

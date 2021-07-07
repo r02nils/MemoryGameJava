@@ -20,13 +20,6 @@ public class Model{
             num.add(i);
             img.add(i);
         }
-
-        Collections.shuffle(num);
-        Collections.shuffle(img);
-
-        img.add(0,1);
-
-        num.add(0,1);
     }
 
     /**
@@ -35,6 +28,12 @@ public class Model{
      * @return cards
      */
     public Vector<Card> shuffle1(int index){
+        Collections.shuffle(num);
+        Collections.shuffle(img);
+
+        img.add(0,1);
+
+        num.add(0,1);
         Vector<Card> cards = new Vector<>();
         cards.add(new Card(num.get(0), img.get(1)));
         cards.add(new Card(num.get(0), img.get(1)));
@@ -53,10 +52,22 @@ public class Model{
      * @return cards
      */
     public Vector<Card> shuffle0(int index){
+        img.add(0,1);
+        num.add(0,1);
         Vector<Card> cards = new Vector<>();
         cards.add(new Card(num.get(0), img.get(1)));
         cards.add(new Card(num.get(0), img.get(1)));
         for (int i = 1; i < (index/2); i++) {
+            cards.add(new Card(num.get(i), img.get(i)));
+            cards.add(new Card(num.get(i), img.get(i)));
+        }
+
+        return cards;
+    }
+
+    public Vector<Card> shuffle2(int index){
+        Vector<Card> cards = new Vector<>();
+        for (int i = 1; i < (index/2)+1; i++) {
             cards.add(new Card(num.get(i), img.get(i)));
             cards.add(new Card(num.get(i), img.get(i)));
         }

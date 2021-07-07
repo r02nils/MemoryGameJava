@@ -25,7 +25,7 @@ public class Test{
      */
     @org.junit.Test
     public void t01() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(1);
         gui.clickEvent(0);
         gui.clickEvent(1);
@@ -42,7 +42,7 @@ public class Test{
      */
     @org.junit.Test
     public void t02() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(1);
         for (int i = 0; i < 16; i++) {
             gui.clickEvent(i);
@@ -77,7 +77,7 @@ public class Test{
      */
     @org.junit.Test
     public void t06() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(2);
         Vector<Card> cards = gui.getModel().shuffle0(16);
         Color card1 = cards.get(0).getColor();
@@ -94,7 +94,7 @@ public class Test{
      */
     @org.junit.Test
     public void t07() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(2);
         String name1 = gui.getPlayer1().getText();
         String name2 = gui.getPlayer2().getText();
@@ -111,7 +111,7 @@ public class Test{
      */
     @org.junit.Test
     public void t08() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(2);
         gui.getModel().shuffle0(16);
 
@@ -137,7 +137,7 @@ public class Test{
      */
     @org.junit.Test
     public void t11() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(2);
         gui.getModel().shuffle0(16);
 
@@ -161,7 +161,7 @@ public class Test{
      */
     @org.junit.Test
     public void t12() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(2);
         gui.getModel().shuffle0(16);
 
@@ -181,7 +181,7 @@ public class Test{
      */
     @org.junit.Test
     public void t13() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(2);
         gui.getModel().shuffle0(16);
 
@@ -201,13 +201,72 @@ public class Test{
      */
     @org.junit.Test
     public void t14() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        GUI gui = new GUI(4,4,1);
+        GUI gui = new GUI(4,4,150,1);
         gui.setSelectedOption(2);
         gui.getModel().shuffle0(16);
 
         int x = gui.getActivePlayer();
 
         assertEquals(1,x);
+    }
+
+    @org.junit.Test
+    public void a1() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        GUI gui = new GUI(3,2,150,1);
+        gui.setSize(450,320);
+        gui.setSelectedOption(1);
+
+        gui.clickEvent(0); // 1.Karte
+        gui.clickEvent(3); // 4.Karte
+        gui.clickEvent(1); // Zum zudecken der Karten
+
+        int x = gui.getActivePlayer();
+        boolean card1 = gui.getCards().get(0).getTurned();
+        boolean card2 = gui.getCards().get(3).getTurned();
+
+        assertEquals(2,x);
+        assertEquals(false,card1);
+        assertEquals(false,card2);
+    }
+
+    @org.junit.Test
+    public void a2() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        GUI gui = new GUI(3,2,150,1);
+        gui.setSize(450,320);
+        gui.setSelectedOption(1);
+
+        gui.clickEvent(0); // 1.Karte
+        gui.clickEvent(1); // 2.Karte
+        gui.clickEvent(2); // Zum zudecken der Karten
+
+        int x = gui.getActivePlayer();
+        boolean card1 = gui.getCards().get(0).getTurned();
+        boolean card2 = gui.getCards().get(1).getTurned();
+
+        assertEquals(1,x);
+        assertEquals(true,card1);
+        assertEquals(true,card2);
+    }
+
+    @org.junit.Test
+    public void a3() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        GUI gui = new GUI(3,2,150,1);
+        gui.setSize(450,320);
+        gui.setSelectedOption(1);
+        gui.getModel().shuffle2(6);
+
+        gui.clickEvent(0); // 1.Karte
+        gui.clickEvent(3); // 4.Karte
+
+        gui.clickEvent(0); // 1.Karte
+        gui.clickEvent(1); // 2.Karte
+
+        gui.clickEvent(2); // 3.Karte
+        gui.clickEvent(3); // 4.Karte
+
+        int x = gui.getP1Points();
+
+        assertEquals(2, x);
     }
 
     /**

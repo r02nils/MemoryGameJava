@@ -40,6 +40,7 @@ public class GUI extends JFrame {
     private Timer t;
     private JLabel timeLabel;
     private JPanel middle;
+    private int size;
 
     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/music/africa-toto.wav").getCanonicalFile());
     Clip clip = AudioSystem.getClip();
@@ -53,10 +54,11 @@ public class GUI extends JFrame {
      * @throws UnsupportedAudioFileException
      * @throws LineUnavailableException
      */
-    GUI(int y, int x, int mode) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    GUI(int y, int x, int size, int mode) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Timer(15); //start timer (15 seconds)
         this.x = x;
         this.y = y;
+        this.size = size;
         this.mode = mode;
         number = (y * x);
         if ((x * y) % 2 != 0) {
@@ -96,7 +98,7 @@ public class GUI extends JFrame {
         model = new Model();
 
         if(mode == 1){
-            cards = model.shuffle0(number); //cards are not mixed (test mode)
+            cards = model.shuffle2(number); //cards are not mixed (test mode)
         }
         else{
             cards = model.shuffle1(number); //cards are mixed (normal mode)
@@ -127,9 +129,9 @@ public class GUI extends JFrame {
         for (int i = 0; i < (number); i++) {
 
             if (x == y) {
-                cards.get(i).getPanel().setSize((150 / x) * 4, (150 / y) * 4);
+                cards.get(i).getPanel().setSize(size ,size);
             } else {
-                cards.get(i).getPanel().setSize((150 / x) * 4, (150 / y) * 4);
+                cards.get(i).getPanel().setSize(size, size);
             }
             field.add(cards.get(i).getPanel());
         }
@@ -230,6 +232,17 @@ public class GUI extends JFrame {
             resultGUI.setSize(700,500);
             resultGUI.setVisible(true);
             setVisible(false);
+        }
+        else{
+            int totalPoints = ((number/2)+2)/4;
+            for (int i = 0; i < 1; i++) {
+                if(p1Points > totalPoints || p2Points > totalPoints/2){
+                    resultGUI = new ResultGUI(p1Points, p2Points);
+                    resultGUI.setSize(700,500);
+                    resultGUI.setVisible(true);
+                    setVisible(false);
+                }
+            }
         }
     }
 

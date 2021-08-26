@@ -229,20 +229,9 @@ public class GUI extends JFrame {
         if (check == cards.size()) {
             clip.stop();
             resultGUI = new ResultGUI(p1Points, p2Points);
-            resultGUI.setSize(700,500);
+            resultGUI.setSize(700, 500);
             resultGUI.setVisible(true);
             setVisible(false);
-        }
-        else{
-            int totalPoints = ((number/2)+2)/4;
-            for (int i = 0; i < 1; i++) {
-                if(p1Points > totalPoints || p2Points > totalPoints/2){
-                    resultGUI = new ResultGUI(p1Points, p2Points);
-                    resultGUI.setSize(700,500);
-                    resultGUI.setVisible(true);
-                    setVisible(false);
-                }
-            }
         }
     }
 
